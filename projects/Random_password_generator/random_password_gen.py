@@ -5,19 +5,7 @@ alpha = "abcdefghijklmnopqrstuvwxyz"
 num = "0123456789"
 special = "@#$%&*"
 
-# pass_len=random.randint(8,13)  #without User INput
-pass_len = int(input("Enter Password Length"))
-
-# length of password by 50-30-20 formula
-alpha_len = pass_len//2
-num_len = math.ceil(pass_len*30/100)
-special_len = pass_len-(alpha_len+num_len)
-
-
-password = []
-
-
-def generate_pass(length, array, is_alpha=False):
+def generate_pass(length, array, password, is_alpha=False):
     for i in range(length):
         index = random.randint(0, len(array) - 1)
         character = array[index]
@@ -26,6 +14,37 @@ def generate_pass(length, array, is_alpha=False):
             if case == 1:
                 character = character.upper()
         password.append(character)
+    return password
+
+def regenerate_password():
+    while True:
+        # 패스워드 길이 입력
+        pass_len = int(input("Enter Password Length: "))
+        
+        # 50-30-20 비율로 길이 설정
+        alpha_len = pass_len // 2
+        num_len = math.ceil(pass_len * 30 / 100)
+        special_len = pass_len - (alpha_len + num_len)
+
+        password = []
+        
+        # 알파벳, 숫자, 특수문자 비율에 맞게 패스워드 생성
+        password = generate_pass(alpha_len, alpha, password, True)
+        password = generate_pass(num_len, num, password)
+        password = generate_pass(special_len, special, password)
+        
+        # 생성된 패스워드 셔플
+        random.shuffle(password)
+
+        # 리스트를 문자열로 변환
+        gen_password = ''.join(password)
+
+        # 생성된 패스워드 출력
+        print(f"Generated Password: {gen_password}")
+
+        # 재생성 여부 묻기
+        if input("Do you want to regenerate? (y/n): ").lower() == 'n':
+            break
 
 # check password strength
 def check_password_strength(password):
@@ -40,17 +59,7 @@ def check_password_strength(password):
         strength += 1
     return strength
 
-# alpha password
-generate_pass(alpha_len, alpha, True)
-# numeric password
-generate_pass(num_len, num)
-# special Character password
-generate_pass(special_len, special)
-# suffle the generated password list
-random.shuffle(password)
-# convert List To string
-gen_password = ""
-for i in password:
-    gen_password = gen_password + str(i)
-print(gen_password)
-print("패스워드 강도 : " + str(check_password_strength(gen_password)))
+
+
+# execute regenerate_password 
+regenerate_password()
