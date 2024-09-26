@@ -27,6 +27,18 @@ def generate_pass(length, array, is_alpha=False):
                 character = character.upper()
         password.append(character)
 
+# check password strength
+def check_password_strength(password):
+    strength = 0
+    if any(c.isdigit() for c in password):
+        strength += 1
+    if any(c.islower() for c in password):
+        strength += 1
+    if any(c.isupper() for c in password):
+        strength += 1
+    if any(c in special for c in password):
+        strength += 1
+    return strength
 
 # alpha password
 generate_pass(alpha_len, alpha, True)
@@ -41,3 +53,4 @@ gen_password = ""
 for i in password:
     gen_password = gen_password + str(i)
 print(gen_password)
+print("패스워드 강도 : " + str(check_password_strength(gen_password)))
