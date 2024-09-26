@@ -40,7 +40,7 @@ def quick_sort(arr, begin, end, size):
 def print_array(arr):
     print("Array:", arr)
 
-# Example usage
+# Sample Code
 if __name__ == "__main__":
     arr = [42, 20, 17, 13, 28, 14, 23, 15]
     size = len(arr)
